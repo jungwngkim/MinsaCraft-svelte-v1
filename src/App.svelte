@@ -1,32 +1,20 @@
 <script>
   import Header from "./components/Header.svelte";
   import Footer from "./components/Footer.svelte";
-  import CreatePollForm from "./components/CreatePollForm.svelte";
-  import PollList from "./components/PollList.svelte";
+  import HowToConnect from "./components/HowToConnect.svelte";
+  import Home from "./components/Home.svelte";
+  import ServerInfo from "./components/ServerInfo.svelte";
   import Tabs from "./shared/Tabs.svelte";
 
+  // server info
+  let version = "1.15.2";
+  let url = "build.minsacraft.kro.kr";
+  let port = 8633;
+
   // tabs
-  let items = ["Current Polls", "Add New Poll"];
-  let activeItem = "Current Polls";
+  let items = ["Home", "Server Status", "How to connect"];
+  let activeItem = "Home";
   const tabChangeHandler = event => (activeItem = event.detail);
-
-  // polls
-  let polls = [
-    {
-      id: 1,
-      question: "Python or JavaScript?",
-      answerA: "Python",
-      answerB: "JavaScript",
-      votesA: 9,
-      votesB: 15
-    }
-  ];
-
-  const handlePollAdd = event => {
-    const poll = event.detail;
-    polls = [poll, ...polls];
-    activeItem = "Current Polls";
-  };
 </script>
 
 <style>
@@ -39,10 +27,12 @@
 <Header />
 <main>
   <Tabs {items} {activeItem} on:tabChange={tabChangeHandler} />
-  {#if activeItem === 'Current Polls'}
-    <PollList {polls} />
-  {:else if activeItem === 'Add New Poll'}
-    <CreatePollForm on:pollAdd={handlePollAdd} />
+  {#if activeItem === 'Home'}
+    <Home />
+  {:else if activeItem === 'How to connect'}
+    <HowToConnect {version} {url} {port} />
+  {:else if activeItem === 'Server Status'}
+    <ServerInfo />
   {/if}
 </main>
 <Footer />
